@@ -40,13 +40,7 @@ struct AlbumView: View {
                     }
                 }
             }
-            .fullScreenCover(store: store.scope(state: \.$trackPresented, action: \.trackPresented)) { trackStore in
-                
-                NavigationStack {
-                    TrackView(store: trackStore)
-                }
-            }
-
+            
             Button{
                 dismiss()
             } label: {
@@ -55,6 +49,12 @@ struct AlbumView: View {
             .padding(.leading, 10)
             .font(.title)
             .foregroundStyle(.black)
+        }
+        .fullScreenCover(store: store.scope(state: \.$trackPresented, action: \.trackPresented)) { trackStore in
+
+            NavigationStack {
+                TrackView(store: trackStore)
+            }
         }
     }
 }

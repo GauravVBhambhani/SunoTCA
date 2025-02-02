@@ -13,7 +13,6 @@ struct AlbumFeature {
 
     @ObservableState
     struct State {
-
         var selectedAlbum: Album
         var allTracks: [Album]
         

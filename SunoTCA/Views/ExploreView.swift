@@ -4,7 +4,7 @@
 //
 //  Created by Gaurav Bhambhani on 2/1/25.
 //
- 
+
 import SwiftUI
 import ComposableArchitecture
 
@@ -23,7 +23,7 @@ struct ExploreView: View {
 
                 Button {
                     print("opening search view")
-//                    store.send(.searchPressed)
+                    store.send(.searchPressed)
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
@@ -34,16 +34,13 @@ struct ExploreView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack (alignment: .top){
-                    ForEach(store.albums) { album in
+                    ForEach(store.allAlbums) { album in
                         AlbumButtonView (
                             albumImage: album.firstImage,
                             albumTitle: album.title,
                             albumSubtitle: album.category) {
                                 store.send(.albumPressed(album))
                             }
-//                        .onTapGesture {
-//                            store.send(.albumPressed(album))
-//                        }
                     }
                 }
                 .padding(.horizontal)
@@ -55,9 +52,14 @@ struct ExploreView: View {
             store.send(.fetchAlbums)
         }
         .toolbar(.hidden)
-        .fullScreenCover(store: store.scope(state: \.$albumPresented, action: ExploreFeature.Action.albumPresented)) { albumStore in
+        .fullScreenCover(store: store.scope(state: \.$albumPresented, action: \.albumPresented)) { albumStore in
             NavigationStack {
                 AlbumView(store: albumStore)
+            }
+        }
+        .fullScreenCover(store: store.scope(state: \.$searchPresented, action: \.searchPresented)) { searchStore in
+            NavigationStack {
+                SearchView(store: searchStore)
             }
         }
     }
